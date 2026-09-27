@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/MetsaApp/isom-maplibre/compare/v0.1.0...v0.1.1) (2026-09-27)
+
+
+### Bug Fixes
+
+* align slope tick, 302, 415 and 521.001 with ISOM 2017-2 ([#12](https://github.com/MetsaApp/isom-maplibre/issues/12)) ([3c8ee09](https://github.com/MetsaApp/isom-maplibre/commit/3c8ee098f34b1b36b22e3d5b2b9aa0604a1bea8d))
+
 ## 0.1.0 (2026-09-26)
 
 
