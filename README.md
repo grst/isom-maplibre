@@ -82,8 +82,10 @@ invisible.
 | `paths`            | lines           | 502.000 to 507.000                                                   |
 | `manmade`          | lines, polygons | 501.000, 509.000, 510.000, 511.000, 515.000, 516.000, 520.000, 521.000, 521.001 (large building: outline and 50% infill), 529.000 |
 
-A 101.001 slope line is a two-point line from the contour downhill; the symbol
-takes its bearing from it. Coordinates are lng/lat, as for any MapLibre source.
+A 101.001 slope line is the tick itself: a line from the contour downhill, as long
+as the slope line should be on the ground (0.4 mm at 1:15,000, i.e. 6 m at 1:10,000);
+the style draws it as a 0.14 line, so it is sharp at any zoom and touches its
+contour. Coordinates are lng/lat, as for any MapLibre source.
 
 ## Scale
 

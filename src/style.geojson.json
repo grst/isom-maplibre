@@ -431,27 +431,6 @@
           "get",
           "isom_code"
         ],
-        "301.000"
-      ],
-      "id": "d16-301.000",
-      "metadata": {
-        "isom:code": "301.000",
-        "isom:group": "blue-tints",
-        "isom:pass": "detail"
-      },
-      "paint": {
-        "fill-color": "#00FFFF"
-      },
-      "source": "water",
-      "type": "fill"
-    },
-    {
-      "filter": [
-        "==",
-        [
-          "get",
-          "isom_code"
-        ],
         "521.001"
       ],
       "id": "d17-521.001",
@@ -594,11 +573,17 @@
       ],
       "id": "d21-101.001",
       "layout": {
-        "icon-allow-overlap": true,
-        "icon-ignore-placement": true,
-        "icon-image": "isom:slope",
-        "icon-rotation-alignment": "map",
-        "icon-size": [
+        "line-cap": "butt",
+        "line-join": "round"
+      },
+      "metadata": {
+        "isom:code": "101.001",
+        "isom:group": "brown",
+        "isom:pass": "detail"
+      },
+      "paint": {
+        "line-color": "#D15C00",
+        "line-width": [
           "interpolate",
           [
             "exponential",
@@ -608,22 +593,13 @@
             "zoom"
           ],
           15,
-          1,
+          0.794,
           22,
-          128
-        ],
-        "symbol-placement": "line-center"
-      },
-      "metadata": {
-        "isom:code": "101.001",
-        "isom:group": "brown",
-        "isom:pass": "detail"
-      },
-      "paint": {
-        "icon-color": "#D15C00"
+          101.63
+        ]
       },
       "source": "contours",
-      "type": "symbol"
+      "type": "line"
     },
     {
       "filter": [
@@ -1833,8 +1809,7 @@
   ],
   "metadata": {
     "isom:sdf": [
-      "isom:111",
-      "isom:slope"
+      "isom:111"
     ],
     "isom:tables": [
       "contours",

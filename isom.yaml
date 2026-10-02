@@ -59,11 +59,6 @@ tables: [contours, cliffs, knolls_points, vegetation_areas, water, paths, manmad
 images:
   "111": # small depression: half circle opening upwards, 0.8 outer width
     halfCircle: { diameter: 0.8, width: 0.18, color: *brown }
-  # Slope line on a contour: 0.4 long (OM), 0.14 wide (ISOM 2017-2 101, page 13
-  # drawing). The icon is centred on the 101.001 geometry rather than starting
-  # on the contour centreline, so it takes the printed length as is.
-  slope:
-    tick: { length: 0.4, width: 0.14, color: *brown }
   "308": # marsh: horizontal lines
     lineRaster: { angle: 0, width: 0.10, spacing: 0.30, color: *blue }
   "407": # slow running, good visibility: vertical lines
@@ -147,9 +142,11 @@ stack:
   - group: brown
     symbols:
       - { code: "101.000", table: contours, line: { color: *brown, width: 0.14 } }
-      # 101 slope line, carried as 101.001: a short line running from the contour
-      # downhill. Placing the icon along it takes the bearing from the geometry.
-      - { code: "101.001", table: contours, icon: { image: slope, placement: line-center } }
+      # 101 slope line, carried as 101.001: the tick itself, a line from the contour
+      # downhill (0.4 long at 1:15,000, ISOM 2017-2 101, page 13 drawing). Drawn as
+      # a line, it is vector at every zoom and touches its contour; its length is
+      # the data's.
+      - { code: "101.001", table: contours, line: { color: *brown, width: 0.14 } }
       - { code: "102.000", table: contours, line: { color: *brown, width: 0.25 } }
       # dashes are not phase-balanced per feature, which ISOM asks for
       - { code: "103.000", table: contours, line: { color: *brown, width: 0.10, dash: [2.0, 0.2] } }

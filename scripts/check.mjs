@@ -19,7 +19,7 @@ assert(s.layers.some((l) => l.source === "contours"), "no contour layers");
 assert(s.layers.every((l) => !("source-layer" in l) && !("minzoom" in l)), "source-layer or minzoom leaked");
 assert(!("sprite" in s), "sprite reference leaked");
 assert(tiled.layers.slice(1).every((l) => l.metadata?.["isom:pass"]), "untagged tile style layer");
-for (const id of ["isom:111", "isom:308", "isom:407", "isom:409", "isom:slope"]) {
+for (const id of ["isom:111", "isom:308", "isom:407", "isom:409"]) {
   assert(ICONS[id]?.includes("<svg"), `missing icon ${id}`);
 }
 console.log("ok:", s.layers.length, "layers,", Object.keys(s.sources).length, "sources");

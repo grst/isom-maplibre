@@ -350,7 +350,7 @@ func TestPatternsAreDrawnPerZoom(t *testing.T) {
 	if math.Abs(got/spacing-128) > 0.01*128 {
 		t.Errorf("407 spacing at z22 is %.2f px, want 128 x %.3f", got, spacing)
 	}
-	if sdf := s.SDFImages(); fmt.Sprint(sdf) != "[isom:111 isom:slope]" {
+	if sdf := s.SDFImages(); fmt.Sprint(sdf) != "[isom:111]" {
 		t.Errorf("SDF images %v", sdf)
 	}
 }
