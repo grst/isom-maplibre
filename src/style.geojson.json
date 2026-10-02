@@ -431,6 +431,27 @@
           "get",
           "isom_code"
         ],
+        "301.000"
+      ],
+      "id": "d16-301.000",
+      "metadata": {
+        "isom:code": "301.000",
+        "isom:group": "blue-tints",
+        "isom:pass": "detail"
+      },
+      "paint": {
+        "fill-color": "#00FFFF"
+      },
+      "source": "water",
+      "type": "fill"
+    },
+    {
+      "filter": [
+        "==",
+        [
+          "get",
+          "isom_code"
+        ],
         "521.001"
       ],
       "id": "d17-521.001",
