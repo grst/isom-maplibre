@@ -212,7 +212,27 @@
         "isom:pass": "detail"
       },
       "paint": {
-        "fill-pattern": "isom:407"
+        "fill-pattern": [
+          "step",
+          [
+            "zoom"
+          ],
+          "isom:407",
+          15.5,
+          "isom:407@z16",
+          16.5,
+          "isom:407@z17",
+          17.5,
+          "isom:407@z18",
+          18.5,
+          "isom:407@z19",
+          19.5,
+          "isom:407@z20",
+          20.5,
+          "isom:407@z21",
+          21.5,
+          "isom:407@z22"
+        ]
       },
       "source": "vegetation_areas",
       "type": "fill"
@@ -233,7 +253,27 @@
         "isom:pass": "detail"
       },
       "paint": {
-        "fill-pattern": "isom:409"
+        "fill-pattern": [
+          "step",
+          [
+            "zoom"
+          ],
+          "isom:409",
+          15.5,
+          "isom:409@z16",
+          16.5,
+          "isom:409@z17",
+          17.5,
+          "isom:409@z18",
+          18.5,
+          "isom:409@z19",
+          19.5,
+          "isom:409@z20",
+          20.5,
+          "isom:409@z21",
+          21.5,
+          "isom:409@z22"
+        ]
       },
       "source": "vegetation_areas",
       "type": "fill"
@@ -338,7 +378,27 @@
         "isom:pass": "detail"
       },
       "paint": {
-        "fill-pattern": "isom:308"
+        "fill-pattern": [
+          "step",
+          [
+            "zoom"
+          ],
+          "isom:308",
+          15.5,
+          "isom:308@z16",
+          16.5,
+          "isom:308@z17",
+          17.5,
+          "isom:308@z18",
+          18.5,
+          "isom:308@z19",
+          19.5,
+          "isom:308@z20",
+          20.5,
+          "isom:308@z21",
+          21.5,
+          "isom:308@z22"
+        ]
       },
       "source": "water",
       "type": "fill"
@@ -537,6 +597,9 @@
         "isom:code": "101.001",
         "isom:group": "brown",
         "isom:pass": "detail"
+      },
+      "paint": {
+        "icon-color": "#D15C00"
       },
       "source": "contours",
       "type": "symbol"
@@ -934,6 +997,9 @@
         "isom:code": "111.000",
         "isom:group": "brown-points",
         "isom:pass": "detail"
+      },
+      "paint": {
+        "icon-color": "#D15C00"
       },
       "source": "knolls_points",
       "type": "symbol"
@@ -1745,6 +1811,10 @@
     }
   ],
   "metadata": {
+    "isom:sdf": [
+      "isom:111",
+      "isom:slope"
+    ],
     "isom:tables": [
       "contours",
       "cliffs",

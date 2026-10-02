@@ -272,7 +272,27 @@
         "isom:pass": "overview"
       },
       "paint": {
-        "fill-pattern": "isom:407"
+        "fill-pattern": [
+          "step",
+          [
+            "zoom"
+          ],
+          "isom:407",
+          15.5,
+          "isom:407@z16",
+          16.5,
+          "isom:407@z17",
+          17.5,
+          "isom:407@z18",
+          18.5,
+          "isom:407@z19",
+          19.5,
+          "isom:407@z20",
+          20.5,
+          "isom:407@z21",
+          21.5,
+          "isom:407@z22"
+        ]
       },
       "source": "overview",
       "source-layer": "vegetation_areas",
@@ -295,7 +315,27 @@
         "isom:pass": "overview"
       },
       "paint": {
-        "fill-pattern": "isom:409"
+        "fill-pattern": [
+          "step",
+          [
+            "zoom"
+          ],
+          "isom:409",
+          15.5,
+          "isom:409@z16",
+          16.5,
+          "isom:409@z17",
+          17.5,
+          "isom:409@z18",
+          18.5,
+          "isom:409@z19",
+          19.5,
+          "isom:409@z20",
+          20.5,
+          "isom:409@z21",
+          21.5,
+          "isom:409@z22"
+        ]
       },
       "source": "overview",
       "source-layer": "vegetation_areas",
@@ -410,7 +450,27 @@
         "isom:pass": "overview"
       },
       "paint": {
-        "fill-pattern": "isom:308"
+        "fill-pattern": [
+          "step",
+          [
+            "zoom"
+          ],
+          "isom:308",
+          15.5,
+          "isom:308@z16",
+          16.5,
+          "isom:308@z17",
+          17.5,
+          "isom:308@z18",
+          18.5,
+          "isom:308@z19",
+          19.5,
+          "isom:308@z20",
+          20.5,
+          "isom:308@z21",
+          21.5,
+          "isom:308@z22"
+        ]
       },
       "source": "overview",
       "source-layer": "water",
@@ -1682,7 +1742,27 @@
       },
       "minzoom": 13,
       "paint": {
-        "fill-pattern": "isom:407"
+        "fill-pattern": [
+          "step",
+          [
+            "zoom"
+          ],
+          "isom:407",
+          15.5,
+          "isom:407@z16",
+          16.5,
+          "isom:407@z17",
+          17.5,
+          "isom:407@z18",
+          18.5,
+          "isom:407@z19",
+          19.5,
+          "isom:407@z20",
+          20.5,
+          "isom:407@z21",
+          21.5,
+          "isom:407@z22"
+        ]
       },
       "source": "vegetation_areas",
       "source-layer": "vegetation_areas",
@@ -1705,7 +1785,27 @@
       },
       "minzoom": 13,
       "paint": {
-        "fill-pattern": "isom:409"
+        "fill-pattern": [
+          "step",
+          [
+            "zoom"
+          ],
+          "isom:409",
+          15.5,
+          "isom:409@z16",
+          16.5,
+          "isom:409@z17",
+          17.5,
+          "isom:409@z18",
+          18.5,
+          "isom:409@z19",
+          19.5,
+          "isom:409@z20",
+          20.5,
+          "isom:409@z21",
+          21.5,
+          "isom:409@z22"
+        ]
       },
       "source": "vegetation_areas",
       "source-layer": "vegetation_areas",
@@ -1820,7 +1920,27 @@
       },
       "minzoom": 13,
       "paint": {
-        "fill-pattern": "isom:308"
+        "fill-pattern": [
+          "step",
+          [
+            "zoom"
+          ],
+          "isom:308",
+          15.5,
+          "isom:308@z16",
+          16.5,
+          "isom:308@z17",
+          17.5,
+          "isom:308@z18",
+          18.5,
+          "isom:308@z19",
+          19.5,
+          "isom:308@z20",
+          20.5,
+          "isom:308@z21",
+          21.5,
+          "isom:308@z22"
+        ]
       },
       "source": "water",
       "source-layer": "water",
@@ -2032,6 +2152,9 @@
         "isom:pass": "detail"
       },
       "minzoom": 13,
+      "paint": {
+        "icon-color": "#D15C00"
+      },
       "source": "contours",
       "source-layer": "contours",
       "type": "symbol"
@@ -2449,6 +2572,9 @@
         "isom:pass": "detail"
       },
       "minzoom": 13,
+      "paint": {
+        "icon-color": "#D15C00"
+      },
       "source": "knolls_points",
       "source-layer": "knolls_points",
       "type": "symbol"
@@ -3302,6 +3428,10 @@
     }
   ],
   "metadata": {
+    "isom:sdf": [
+      "isom:111",
+      "isom:slope"
+    ],
     "isom:tables": [
       "contours",
       "cliffs",

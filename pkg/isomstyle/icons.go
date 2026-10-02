@@ -3,6 +3,7 @@ package isomstyle
 import (
 	"fmt"
 	"math"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -14,19 +15,73 @@ const rasterAlong = 4
 // Icons returns every image as SVG, keyed by its full style id ("isom:111").
 // Images are sized in CSS px at the map scale; canvases are whole pixels so a
 // renderer never resamples them.
+//
+// A fill pattern is drawn in screen pixels whatever the zoom, so a line raster
+// also comes once per zoom above lockZoom, drawn at that zoom's magnification
+// ("isom:407@z17"); the style picks the one for the zoom (see patternByZoom).
 func (s *Spec) Icons() map[string]string {
 	out := map[string]string{}
 	for key, img := range s.Images {
-		out[s.imageID(key)] = s.svg(img)
+		out[s.imageID(key)] = s.svg(img, 1)
+		if img.LineRaster != nil {
+			for _, z := range s.magnifiedZooms() {
+				out[s.zoomImageID(key, z)] = s.svg(img, s.magnification(float64(z)))
+			}
+		}
 	}
 	return out
+}
+
+// SDFImages lists the images a renderer should add as signed distance fields
+// (MapLibre's `sdf: true`): the single-colour point symbols, which the style
+// magnifies up to 2^(maxZoom-lockZoom) times and colours with icon-color. A
+// bitmap would pixelate; a distance field keeps its edges sharp at any size.
+func (s *Spec) SDFImages() []string {
+	var out []string
+	for key, img := range s.Images {
+		if img.LineRaster == nil {
+			out = append(out, s.imageID(key))
+		}
+	}
+	sort.Strings(out)
+	return out
+}
+
+// magnifiedZooms are the integer zooms above lockZoom up to maxZoom.
+func (s *Spec) magnifiedZooms() []int {
+	var out []int
+	for z := int(s.Scale.LockZoom) + 1; z <= int(s.Scale.MaxZoom); z++ {
+		out = append(out, z)
+	}
+	return out
+}
+
+// magnification is the factor the style draws every dimension at, at zoom z.
+func (s *Spec) magnification(z float64) float64 {
+	return math.Exp2(math.Max(0, z-s.Scale.LockZoom))
+}
+
+func (s *Spec) zoomImageID(key string, z int) string {
+	return fmt.Sprintf("%s@z%d", s.imageID(key), z)
+}
+
+// color is the single colour the image is drawn in.
+func (img Image) color() string {
+	switch {
+	case img.HalfCircle != nil:
+		return img.HalfCircle.Color
+	case img.Tick != nil:
+		return img.Tick.Color
+	default:
+		return img.LineRaster.Color
+	}
 }
 
 // IconsJSON renders Icons as an indented JSON object.
 func (s *Spec) IconsJSON() ([]byte, error) { return marshal(s.Icons()) }
 
-func (s *Spec) svg(img Image) string {
-	px := s.Scale.Px
+func (s *Spec) svg(img Image, factor float64) string {
+	px := func(mm float64) float64 { return s.Scale.Px(mm) * factor }
 	switch {
 	case img.LineRaster != nil:
 		r := img.LineRaster

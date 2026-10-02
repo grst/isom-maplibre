@@ -16,6 +16,9 @@ const (
 	PassKey  = "isom:pass"  // PassDetail, PassOverview or PassCoverage
 	// TablesKey is style-level metadata: the tables in definition order.
 	TablesKey = "isom:tables"
+	// SDFKey is style-level metadata: the image ids to add as signed distance
+	// fields (MapLibre's addImage option `sdf: true`). See Spec.SDFImages.
+	SDFKey = "isom:sdf"
 )
 
 const (
@@ -84,7 +87,7 @@ func (s *Spec) Style() map[string]any {
 	return map[string]any{
 		"version":  8,
 		"name":     s.Name,
-		"metadata": map[string]any{TablesKey: s.Tables},
+		"metadata": map[string]any{TablesKey: s.Tables, SDFKey: s.SDFImages()},
 		"sprite":   []any{map[string]any{"id": s.Sprite.ID, "url": s.Sprite.URL}},
 		"sources":  sources,
 		"layers":   layers,
@@ -109,7 +112,7 @@ func (s *Spec) GeojsonStyle() map[string]any {
 	return map[string]any{
 		"version":  8,
 		"name":     s.Name,
-		"metadata": map[string]any{TablesKey: s.Tables},
+		"metadata": map[string]any{TablesKey: s.Tables, SDFKey: s.SDFImages()},
 		"sources":  sources,
 		"layers":   layers,
 	}
@@ -162,9 +165,7 @@ func (s *Spec) layer(e entry, pass, id, source string) map[string]any {
 	case sym.Fill != nil:
 		l["type"] = "fill"
 		if sym.Fill.Pattern != "" {
-			// fill-pattern cannot be zoom-scaled, so patterns keep their
-			// density past lockZoom.
-			l["paint"] = map[string]any{"fill-pattern": s.imageID(sym.Fill.Pattern)}
+			l["paint"] = map[string]any{"fill-pattern": s.patternByZoom(sym.Fill.Pattern)}
 		} else {
 			l["paint"] = map[string]any{"fill-color": sym.Fill.Color}
 		}
@@ -202,6 +203,8 @@ func (s *Spec) layer(e entry, pass, id, source string) map[string]any {
 		}
 		l["type"] = "symbol"
 		l["layout"] = layout
+		// The image is a distance field (SDFImages), tinted with the symbol colour.
+		l["paint"] = map[string]any{"icon-color": s.Images[sym.Icon.Image].color()}
 	}
 	return l
 }
@@ -218,6 +221,22 @@ func (s *Spec) magnified(v float64) any {
 }
 
 func (s *Spec) imageID(key string) string { return s.Sprite.ID + ":" + key }
+
+// patternByZoom picks a line raster's image for the zoom. fill-pattern cannot be
+// scaled, so each zoom above lockZoom has an image drawn at its magnification
+// (Icons), switched half way between zooms: the spacing on the ground is never
+// more than 2^0.5 off.
+func (s *Spec) patternByZoom(key string) any {
+	zooms := s.magnifiedZooms()
+	if len(zooms) == 0 {
+		return s.imageID(key)
+	}
+	expr := []any{"step", []any{"zoom"}, s.imageID(key)}
+	for _, z := range zooms {
+		expr = append(expr, float64(z)-0.5, s.zoomImageID(key, z))
+	}
+	return expr
+}
 
 // StyleJSON renders Style, indented, with a trailing newline.
 func (s *Spec) StyleJSON() ([]byte, error) { return marshal(s.Style()) }

@@ -259,10 +259,12 @@ func TestGeojsonStyleIsTheDetailPass(t *testing.T) {
 	}
 }
 
-// The only permitted zoom expression is uniform magnification: constant up to
-// lockZoom, then exactly ×2 per zoom level.
+// The only permitted zoom expressions are uniform magnification -- constant up to
+// lockZoom, then exactly ×2 per zoom level -- and, for a fill pattern, the step
+// to the image drawn at each zoom's magnification.
 func TestOnlyUniformMagnification(t *testing.T) {
 	t.Parallel()
+	icons := load(t).Icons()
 	for _, l := range styleLayers(t) {
 		for _, key := range []string{"paint", "layout"} {
 			props, _ := l[key].(map[string]any)
@@ -272,6 +274,12 @@ func TestOnlyUniformMagnification(t *testing.T) {
 					continue
 				}
 				e, ok := v.([]any)
+				if name == "fill-pattern" && ok && e[0] == "step" {
+					if !patternSteps(e, icons) {
+						t.Errorf("layer %v: fill-pattern %s does not step to each zoom's image", l["id"], b)
+					}
+					continue
+				}
 				ok = ok && len(e) == 7 && e[0] == "interpolate" &&
 					fmt.Sprint(e[1]) == "[exponential 2]" && fmt.Sprint(e[2]) == "[zoom]" &&
 					e[3] == 15.0 && e[5] == 22.0 && math.Abs(e[6].(float64)-e[4].(float64)*128) < 0.5
@@ -306,5 +314,43 @@ func TestLineRastersTileSeamlessly(t *testing.T) {
 		if math.Abs(got-want)/want > 0.005 {
 			t.Errorf("%s: spacing %.3f px, spec %.3f px", key, got, want)
 		}
+	}
+}
+
+// patternSteps reports whether e is ["step", ["zoom"], base, 15.5, base@z16, ...,
+// 21.5, base@z22], every image of which exists.
+func patternSteps(e []any, icons map[string]string) bool {
+	base, _ := e[2].(string)
+	if len(e) != 3+2*7 || fmt.Sprint(e[1]) != "[zoom]" || icons[base] == "" {
+		return false
+	}
+	for i, z := 0, 16; z <= 22; i, z = i+1, z+1 {
+		id := fmt.Sprintf("%s@z%d", base, z)
+		if e[3+2*i] != float64(z)-0.5 || e[4+2*i] != id || icons[id] == "" {
+			return false
+		}
+	}
+	return true
+}
+
+// A magnified pattern keeps the spec spacing at its zoom: the stripe spacing
+// grows by exactly the style's magnification.
+func TestPatternsAreDrawnPerZoom(t *testing.T) {
+	t.Parallel()
+	s := load(t)
+	icons := s.Icons()
+	width := regexp.MustCompile(`width="(\d+)"`)
+	stripes := func(svg string) int { return strings.Count(svg, "M") }
+	base := icons["isom:407"]
+	big := icons["isom:407@z22"]
+	wb, _ := strconv.Atoi(width.FindStringSubmatch(base)[1])
+	wz, _ := strconv.Atoi(width.FindStringSubmatch(big)[1])
+	spacing := float64(wb) / float64(stripes(base))
+	got := float64(wz) / float64(stripes(big))
+	if math.Abs(got/spacing-128) > 0.01*128 {
+		t.Errorf("407 spacing at z22 is %.2f px, want 128 x %.3f", got, spacing)
+	}
+	if sdf := s.SDFImages(); fmt.Sprint(sdf) != "[isom:111 isom:slope]" {
+		t.Errorf("SDF images %v", sdf)
 	}
 }
